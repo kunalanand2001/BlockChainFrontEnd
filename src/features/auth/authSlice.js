@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   registerCustomer, loginCustomer,
-  registerSeller, loginSeller
+  registerSeller, loginSeller, fetchProfile, updateProfile
 } from './authThunks';
 
 const initialState = {
@@ -11,6 +11,9 @@ const initialState = {
   status: 'idle',
   error: null
 };
+
+
+
 
 const authSlice = createSlice({
   name: 'auth',
@@ -42,7 +45,7 @@ const authSlice = createSlice({
       .addCase(loginCustomer.fulfilled, (state, { payload }) => {
         state.status = 'succeeded';
         state.user = payload.user;
-        state.token = payload.token;
+        state.token = payload.value;
       })
       .addCase(loginCustomer.rejected, (state, action) => {
         state.status = 'failed';
@@ -63,12 +66,39 @@ const authSlice = createSlice({
       .addCase(loginSeller.fulfilled, (state, { payload }) => {
         state.status = 'succeeded';
         state.user = payload.user;
-        state.token = payload.token;
+        state.token = payload.value;
       })
       .addCase(loginSeller.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      });
+      })
+
+      // fetchProfile
+      .addCase(fetchProfile.pending, state => {
+        state.status = 'loading';
+        state.error  = null;
+      })
+      .addCase(fetchProfile.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.user   = payload;
+      })
+      .addCase(fetchProfile.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error  = action.payload || action.error.message;
+      })
+
+
+      .addCase(updateProfile.pending, state => {
+        state.status = 'loading'; state.error = null;
+      })
+      .addCase(updateProfile.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.user   = payload;       // replace with updated user
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error  = action.payload || action.error.message;
+      })
   }
 });
 

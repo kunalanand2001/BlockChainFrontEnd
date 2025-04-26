@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import AuthPage from './components/AuthPage';
 import HomePage from './components/HomePage';
 import { useSelector } from 'react-redux';
+import ProfileForm from './components/ProfileForm';
 
 export default function App() {
   const token = useSelector(state => state.auth.token);
@@ -16,6 +17,8 @@ export default function App() {
         <Route path="/home" element={
           token ? <HomePage/> : <Navigate to="/" replace/>
         }/>
+        <Route path="/customer/profile" element={<ProfileForm userType="customer" />} />
+        <Route path="/seller/profile"   element={<ProfileForm userType="seller"   />} />
       </Routes>
     </BrowserRouter>
   );

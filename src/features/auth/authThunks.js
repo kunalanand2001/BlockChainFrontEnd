@@ -34,3 +34,31 @@ export const loginSeller = createAsyncThunk(
     return response.data;
   }
 );
+
+export const fetchProfile = createAsyncThunk(
+  'auth/fetchProfile',
+  async ({ role, token }, { rejectWithValue }) => {
+    try {
+      // your API expects { value: token } in the body
+      const resp = await axios.post(`/${role}/get`, { value: token })
+      return resp.data      // full user object
+    } catch (err) {
+      return rejectWithValue(err.response.data)
+    }
+  }
+)
+
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async ({ role, token, updates }, { rejectWithValue }) => {
+    try {
+      const resp = await axios.put(
+        `/${role}/update`,
+        { value: token, ...updates }
+      );
+      return resp.data;         // updated user object
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
