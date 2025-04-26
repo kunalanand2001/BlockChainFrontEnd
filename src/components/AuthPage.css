@@ -1,0 +1,53 @@
+/* AuthPage.css */
+
+.auth-page-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    margin: 100px auto;
+    text-align: center;
+  }
+  
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .auth-form label {
+    font-weight: 500;
+  }
+  
+  .auth-form input {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+  }
+  
+  .auth-form .auth-login-button {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 125px;
+    cursor: pointer;
+    align-self: center;
+  }
+  
+  .auth-form .auth-signup-button {
+    background-color: transparent;
+    border: 1px solid #0070f3;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 125px;
+    cursor: pointer;
+    align-self: center;
+    background-color: #007bff;
+    margin-top: 10px;
+  }

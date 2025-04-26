@@ -1,5 +1,5 @@
 // src/pages/HomePage.jsx
-import React from 'react'
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../features/auth/authSlice'
@@ -7,7 +7,7 @@ import { fetchProfile } from '../features/auth/authThunks'
 import SellerDashboard from './SellerDashboard'
 import CustomerDashboard from './CustomerDashboard'
 
-export default function HomePage() {
+function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -34,62 +34,67 @@ export default function HomePage() {
       })
   }
 
+  // Style objects for inline styling
+  const containerStyle = {
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#f4f4f4',
+    minHeight: '100vh',
+  };
+
+  const headerRowStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  };
+
+  const welcomeTextStyle = {
+    color: '#333',
+  };
+
+  const buttonStyle = {
+    marginRight: '10px',
+    padding: '10px 20px',
+    background: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  };
+
+  const logoutButtonStyle = {
+    ...buttonStyle,
+    background: '#dc3545',
+  };
+
+  const dashboardContentStyle = {
+    marginTop: '20px',
+  };
+
   return (
-    <div style={{ padding: 20 }}>
-      {/* <h1>Welcome, {user?.name || 'User'}!</h1>*/}
-      <div style={{ padding: 20 }}> 
-      {/* Header row: welcome on left, buttons on right */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-      >
-        <div>
-          <h1>Welcome, {user?.name || 'User'}!</h1>
-          <p>Role: {role}</p>
+    <div style={containerStyle}>
+      <div style={headerRowStyle}>
+        <div style={welcomeTextStyle}>
+          <h1>Welcome, {user?.name || 'Guest'}!</h1>
+          <p>Role: {role || 'None'}</p>
         </div>
-
         <div>
-          <button
-            onClick={handleViewProfile}
-            style={{
-              marginRight: 10,
-              padding: '8px 16px',
-              background: '#007bff',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 4,
-              cursor: 'pointer'
-            }}
-          >
-            View Profile
-          </button>
-
-          <button
-            onClick={() => dispatch(logout())}
-            style={{
-              padding: '8px 16px',
-              background: '#dc3545',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 4,
-              cursor: 'pointer'
-            }}
-          >
-            Logout
-          </button>
+          <button onClick={handleViewProfile} style={buttonStyle}>View Profile</button>
+          <button onClick={() => dispatch(logout())} style={logoutButtonStyle}>Logout</button>
         </div>
       </div>
 
-      {/* Dashboard content */}
-      <div style={{ marginTop: 20 }}>
+      <div style={dashboardContentStyle}>
         {role === 'seller' && <SellerDashboard />}
         {role === 'customer' && <CustomerDashboard />}
       </div>
-    </div>  
-    
     </div>
   )
 }
+
+export default HomePage;
