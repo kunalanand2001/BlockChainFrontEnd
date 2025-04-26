@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../features/auth/authSlice'
 import { fetchProfile } from '../features/auth/authThunks'
+import SellerDashboard from './SellerDashboard'
+import CustomerDashboard from './CustomerDashboard'
 
 export default function HomePage() {
   const dispatch = useDispatch()
@@ -66,6 +68,8 @@ export default function HomePage() {
         >
           Logout
         </button>
+        {role == 'seller' && (<SellerDashboard />)}
+        {role == 'customer' && (<CustomerDashboard />)}
       </div>
     </div>
   )

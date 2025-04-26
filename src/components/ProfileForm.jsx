@@ -29,7 +29,7 @@ export default function ProfileForm({ userType }) {
     e.preventDefault();
     dispatch(
       updateProfile({
-        role:    userType,
+        role: userType,
         token,
         updates: form    // { name, address, city, gender?, age? }
       })
