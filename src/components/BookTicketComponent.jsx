@@ -1,15 +1,15 @@
 // src/components/BookTicketComponent.jsx
 import React, { useState, useEffect } from 'react'
 import { Card, Form, ListGroup, Spinner, Alert, Row, Col, Button, InputGroup, Container } from 'react-bootstrap';
-import axios from '../api/axiosConfig';
+import { useSelector } from 'react-redux';
+import VehicleListItem from './VehicleListItem';
 
 export default function BookTicketComponent() {
   const [selectedType, setSelectedType] = useState('Bus')
-  const [vehicles, setVehicles]         = useState([])
   const [filtered, setFiltered]         = useState([])
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState(null)
-
+  const vehicles = useSelector(state=>state.customerDashboard.vehicles)
   // filter state
   const [date, setDate]                 = useState('')
   const [fromLocation, setFromLocation] = useState('')
@@ -35,20 +35,15 @@ export default function BookTicketComponent() {
 
   useEffect(() => {
     setLoading(true); setError(null)
-    axios.get(`/vehicles/${selectedType.toLowerCase()}`)
-      .then(resp => setVehicles(resp.data))
-      .catch(() => setError(`Failed to load ${selectedType}s`))
-      .finally(() => setLoading(false))
   }, [selectedType])
 
   // apply filters
   useEffect(() => {
     let list = vehicles
-    if (date)           list = list.filter(v => v.date === date)
     if (fromLocation)   list = list.filter(v => v.from?.toLowerCase().includes(fromLocation.toLowerCase()))
     if (toLocation)     list = list.filter(v => v.to?.toLowerCase().includes(toLocation.toLowerCase()))
     setFiltered(list)
-  }, [date, fromLocation, toLocation, vehicles])
+  }, [fromLocation, toLocation, vehicles])
 
   return (
     <Container className="mt-5">
@@ -100,26 +95,11 @@ export default function BookTicketComponent() {
                                 />
                             </InputGroup>
                         </Col>
-                        <Col md={4}>
-                            <InputGroup className="mb-0" style={filterStyle}>
-                                <InputGroup.Text className="fw-bold" style={{ backgroundColor: 'transparent', border: 'none' }}>Date</InputGroup.Text>
-                                <Form.Control
-                                    type="date"
-                                    value={date}
-                                    onChange={e => setDate(e.target.value)}
-                                    className="fs-6"
-                                />
-                            </InputGroup>
-                        </Col>
                     </Row>
                 </Form>
 
-                {/* Loading/Error */}
-                {loading && <div className="text-center my-4"><Spinner animation="border" /></div>}
-                {error && <Alert variant="danger" className="mt-4">{error}</Alert>}
-
                 {/* Results List */}
-                {!loading && !error && <VehicleList selectedType={selectedType} filtered={filtered} />}
+                {<VehicleList selectedType={selectedType} filtered={filtered} />}
             </Card.Body>
         </Card>
     </Container>
@@ -134,14 +114,25 @@ const VehicleList = ({ selectedType, filtered }) => (
             </ListGroup.Item>
         ) : (
             filtered.map(v => (
-                <ListGroup.Item key={v.id} className="py-3 d-flex justify-content-between align-items-center" style={{ backgroundColor: '#f8f9fa' }}>
-                    <div>
-                        <strong className="fs-5" style={{ color: '#333' }}>{v.name || v.title || v.id}</strong><br />
-                        <small style={{ color: '#555' }}>From: {v.from || 'N/A'} | To: {v.to || 'N/A'} | Date: {v.date || 'N/A'}</small>
-                    </div>
-                    <Button size="sm" variant="outline-primary">Select</Button>
-                </ListGroup.Item>
+               <VehicleListItem vehicle={v}/>
             ))
         )}
     </ListGroup>
 );
+
+// [
+//     {
+//         "vehicleId": "vehicle-0f0c58e6-d11d-42cc-9a84-b8dfdf840bfc",
+//         "sellerId": "ab@ab.com",
+//         "source": "Lko",
+//         "destination": "Knp",
+//         "departureDate": "2025-11-11",
+//         "departureTime": "11:11",
+//         "mode": "flight",
+//         "seatCapacity": 12,
+//         "availableSeats": 12,
+//         "basePrice": 310.0,
+//         "currentPrice": 310.0,
+//         "sellerRating": 3.75
+//     },
+// ]

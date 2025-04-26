@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchBookings,
   fetchTransactions,
-  bookTicket
+  bookTicket,
+  fetchVehicles
 } from './customerDashboardThunks';
 
 const initialState = {
@@ -10,7 +11,10 @@ const initialState = {
   transactions: [],
   bookingResult: null,
   status: 'idle',
-  error: null
+  error: null,
+  vehicles: [],
+  vehiclesStatus: 'idle',
+  vehiclesError: null
 };
 
 const customerDashboardSlice = createSlice({
@@ -48,6 +52,18 @@ const customerDashboardSlice = createSlice({
       .addCase(bookTicket.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      // Vehicles
+      .addCase(fetchVehicles.pending, state => {
+        state.vehiclesStatus = 'loading';
+      })
+      .addCase(fetchVehicles.fulfilled, (state, action) => {
+        state.vehiclesStatus = 'succeeded';
+        state.vehicles = action.payload;
+      })
+      .addCase(fetchVehicles.rejected, (state, action) => {
+        state.vehiclesStatus = 'failed';
+        state.vehiclesError = action.error.message;
       });
   }
 });

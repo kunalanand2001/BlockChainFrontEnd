@@ -66,32 +66,3 @@ export default function AuthPage() {
     </div>
   );
 }
-
-// return (
-//   <div className="auth-page-container">
-//     <form className="auth-form" onSubmit={handleLogin}>
-//       <h2 className="auth-form-title">Customer Login</h2>
-
-//       <label htmlFor="email">Email:</label>
-//       <input
-//         type="email"
-//         id="email"
-//         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
-//         required
-//       />
-
-//       <label htmlFor="password">Password:</label>
-//       <input
-//         type="password"
-//         id="password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         required
-//       />
-//       <button type="submit" className="auth-login-button" onClick={handleLogin}>Login</button>
-//       <button type="button" className="auth-signup-button" onClick={handleSignUp}>Sign Up</button>
-//     </form>
-//   </div>
-// );
-// }

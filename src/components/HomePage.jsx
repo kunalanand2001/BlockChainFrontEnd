@@ -1,7 +1,6 @@
-// src/pages/HomePage.jsx
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { logout } from '../features/auth/authSlice'
 import { fetchProfile } from '../features/auth/authThunks'
 import SellerDashboard from './SellerDashboard'
@@ -72,9 +71,19 @@ function HomePage() {
     background: '#dc3545',
   };
 
+  const linkButtonStyle = {
+    ...buttonStyle,
+    textDecoration: 'none'
+  }
+
   const dashboardContentStyle = {
     marginTop: '20px',
   };
+
+  const buttonGroupStyle = {
+    display: 'flex',
+    alignItems: 'center'
+  }
 
   return (
     <div style={containerStyle}>
@@ -83,8 +92,17 @@ function HomePage() {
           <h1>Welcome, {user?.name || 'Guest'}!</h1>
           <p>Role: {role || 'None'}</p>
         </div>
-        <div>
-          <button onClick={handleViewProfile} style={buttonStyle}>View Profile</button>
+        <div style={buttonGroupStyle}>
+          <button onClick={handleViewProfile} style={buttonStyle}>
+            View Profile
+          </button>
+          {role === 'customer' && (
+            <Link to="/addBalance" style={linkButtonStyle}>Add Balance</Link>
+          )}
+          {role === 'seller' && (
+            <Link to="/addBalance" style={linkButtonStyle}>Add Balance</Link>
+          )}
+
           <button onClick={() => dispatch(logout())} style={logoutButtonStyle}>Logout</button>
         </div>
       </div>
@@ -97,4 +115,4 @@ function HomePage() {
   )
 }
 
-export default HomePage;
+export default HomePage;

@@ -13,6 +13,7 @@ import BookTicketComponent from './BookTicketComponent';
 // import './CustomerDashboard.css';
 import MyBookingsComponent from './MyBookingsComponent';
 import TransactionsComponent from './TransactionsComponent';
+import { fetchVehicles } from '../features/customer/customerDashboardThunks';
 
 export default function CustomerDashboard() {
   const dispatch = useDispatch();
@@ -47,9 +48,12 @@ export default function CustomerDashboard() {
           </Button>
           <Button
             style={buttonStyle}
-            onClick={() => setActiveTab('bookTicket')}
+            onClick={() => {
+                setActiveTab('bookTicket');
+                dispatch(fetchVehicles());
+            }}
             active={activeTab === 'bookTicket'}
-          >
+            >
             Book Ticket
           </Button>
           <Button
