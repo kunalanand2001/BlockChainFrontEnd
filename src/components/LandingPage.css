@@ -1,0 +1,70 @@
+/* Container to center the cards and provide 3D perspective */
+.landing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  perspective: 1200px;       /* enables 3D transforms */
+  background: #f0f4f8;
+  overflow: hidden;
+}
+
+/* Common card styles */
+.card {
+  width: 280px;
+  height: 380px;
+  margin: 0 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideDown 0.8s ease-out forwards;
+}
+
+/* Stagger the second card’s animation */
+.card.seller {
+  animation-delay: 0.2s;
+}
+
+/* Initial state for animation: start off‐screen above */
+@keyframes slideDown {
+  from {
+    transform: translateY(-120vh) rotateZ(var(--init-tilt));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotateZ(var(--init-tilt));
+    opacity: 1;
+  }
+}
+
+/* Set per‐card initial tilts via CSS variables */
+.card.customer {
+  --init-tilt: -10deg;
+  transform: rotateZ(var(--init-tilt));
+}
+.card.seller {
+  --init-tilt: 10deg;
+  transform: rotateZ(var(--init-tilt));
+}
+
+/* Hover effect: straighten & pop */
+.card:hover {
+  transform: translateZ(30px) rotateZ(0deg) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Card titles */
+.card h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
