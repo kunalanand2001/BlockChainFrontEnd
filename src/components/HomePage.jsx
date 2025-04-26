@@ -36,41 +36,60 @@ export default function HomePage() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>Welcome, {user?.name || 'User'}!</h1>
-      <p>Role: {role}</p>
+      {/* <h1>Welcome, {user?.name || 'User'}!</h1>*/}
+      <div style={{ padding: 20 }}> 
+      {/* Header row: welcome on left, buttons on right */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <div>
+          <h1>Welcome, {user?.name || 'User'}!</h1>
+          <p>Role: {role}</p>
+        </div>
 
-      <div style={{ marginTop: 20 }}>
-        <button
-          onClick={handleViewProfile}
-          style={{
-            marginRight: 10,
-            padding: '8px 16px',
-            background: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 4,
-            cursor: 'pointer'
-          }}
-        >
-          View Profile
-        </button>
+        <div>
+          <button
+            onClick={handleViewProfile}
+            style={{
+              marginRight: 10,
+              padding: '8px 16px',
+              background: '#007bff',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer'
+            }}
+          >
+            View Profile
+          </button>
 
-        <button
-          onClick={() => dispatch(logout())}
-          style={{
-            padding: '8px 16px',
-            background: '#dc3545',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 4,
-            cursor: 'pointer'
-          }}
-        >
-          Logout
-        </button>
-        {role == 'seller' && (<SellerDashboard />)}
-        {role == 'customer' && (<CustomerDashboard />)}
+          <button
+            onClick={() => dispatch(logout())}
+            style={{
+              padding: '8px 16px',
+              background: '#dc3545',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer'
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
+
+      {/* Dashboard content */}
+      <div style={{ marginTop: 20 }}>
+        {role === 'seller' && <SellerDashboard />}
+        {role === 'customer' && <CustomerDashboard />}
+      </div>
+    </div>  
+    
     </div>
   )
 }
