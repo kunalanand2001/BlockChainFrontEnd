@@ -6,7 +6,7 @@
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: fit-content;
-    margin: 100px auto;
+    margin: 20px auto;
     text-align: center;
   }
   
@@ -27,12 +27,20 @@
     border-radius: 4px;
     background-color: #f5f5f5;
   }
+
+  .auth-form select {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+  }
   
   .auth-form .auth-login-button {
     background-color: #0070f3;
     color: white;
     border: none;
-    padding: 8px 16px;
+    /* padding: 8px 16px; */
     border-radius: 4px;
     width: 125px;
     cursor: pointer;
@@ -43,11 +51,42 @@
     background-color: transparent;
     border: 1px solid #0070f3;
     color: white;
-    padding: 8px 16px;
+    /* padding: 8px 160px; */
     border-radius: 4px;
     width: 125px;
     cursor: pointer;
     align-self: center;
     background-color: #007bff;
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    text-align: center;
   }
+
+  .auth-form #lab{
+    width: 10px;
+  }
+
+    .visibility-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+      margin: 1rem 0;
+    }
+  
+    /* Native checkbox tweaks: size, accent color in modern browsers */
+    .visibility-checkbox {
+      width: 1.2rem;
+      height: 1.2rem;
+      cursor: pointer;
+      accent-color: #007a7e;
+      /* align-self: lest; */
+      margin-right: 0.25em;
+      /* Chrome 93+, Firefox 92+, Edge 93+ */
+    }
+  
+    /* Label text styling */
+    .visibility-label {
+      font-size: 1rem;
+      color: #333;
+      margin-right: 70%;
+    }
