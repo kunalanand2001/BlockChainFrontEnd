@@ -1,53 +1,69 @@
 /* src/components/VehicleListItem.css */
 .vehicle-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
     background: #fff;
     padding: 1rem 1.5rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
+  margin-bottom: 1rem;
+  border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .vehicle-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  }
-  
-  /* Grid of labels/values */
-  .vehicle-info {
-    display: grid;
+}
+.vehicle-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* Grid of labels/values */
+.vehicle-info {
+  display: grid;
     grid-template-columns: repeat(2, max-content);
     column-gap: 2rem;
-    row-gap: 0.5rem;
-  }
-  .label {
+  row-gap: 0.5rem;
+}
+.label {
     font-size: 0.85rem;
     color: #777;
-  }
-  .value {
+}
+.value {
     font-size: 1.05rem;
-    font-weight: 500;
-    color: #333;
-  }
-  
-  /* Remove button */
-  .remove-button {
-    background: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.2s;
-  }
-  .remove-button:disabled {
-    background: #e99a9f;
-    cursor: not-allowed;
-  }
-  .remove-button:hover:not(:disabled) {
-    background: #c82333;
-  }
-  
+  font-weight: 500;
+  color: #333;
+}
+
+/* Remove button */
+.remove-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.remove-button:disabled {
+  background: #e99a9f;
+  cursor: not-allowed;
+}
+.remove-button:hover:not(:disabled) {
+  background-color: #bb2d3b;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.book-button {
+  background-color: #28a745; /* Green color */
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.book-button:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}

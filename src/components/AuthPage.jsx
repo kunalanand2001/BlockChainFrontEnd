@@ -28,7 +28,6 @@ export default function AuthPage() {
       : role === "customer"
       ? registerCustomer
       : registerSeller;
-
     dispatch(thunk(data))
       .unwrap()
       .then(() => navigate("/home"))

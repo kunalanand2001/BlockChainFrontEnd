@@ -1,15 +1,18 @@
 /* src/components/ProfileForm.css */
 .profile-card {
-    max-width: 400px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: #fff;
+    width: 1300px;
+    margin: 2rem 50px;
+    padding: 50px;
+    background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.1);
   }
-  .profile-card h2 {
+  .profile-card-header {
     text-align: center;
-    margin-bottom: 1rem;
+    color: #0069d9;
+    margin-top: 0px;
+    padding-top: 0px;
+    /* margin-bottom: ; */
   }
   .detail-row {
     display: flex;

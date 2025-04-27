@@ -3,9 +3,10 @@ import axios from '../../api/axiosConfig';
 
 // Fetch existing bookings
 export const fetchBookings = createAsyncThunk(
-  'customerDashboard/fetchBookings',
-  async (_, thunkAPI) => {
-    const resp = await axios.get('/customer/bookings');
+  "customerDashboard/fetchBookings",
+  async ({token}, thunkAPI) => {
+    const params = new URLSearchParams({ token });
+    const resp = await axios.post(`/customer/booking?${params.toString()}`)
     return resp.data; // assume array of bookings
   }
 );
@@ -13,26 +14,38 @@ export const fetchBookings = createAsyncThunk(
 // Fetch transaction history
 export const fetchTransactions = createAsyncThunk(
   'customerDashboard/fetchTransactions',
-  async (_, thunkAPI) => {
-    const resp = await axios.get('/customer/transactions');
+  async ({role, token}, thunkAPI) => {
+    const resp = await axios.post(`/customer/get`, { value: token })
     return resp.data; // assume array of transactions
   }
 );
 
 // Book a ticket (example payload: { tripId, seats })
-export const bookTicket = createAsyncThunk(
-  'customerDashboard/bookTicket',
+export const bookTicket = createAsyncThunk( 
+  "customerDashboard/bookTicket",
   async (bookingData, thunkAPI) => {
-    const resp = await axios.post('/customer/bookTicket', bookingData);
+    const resp = await axios.post("/customer/bookTicket", bookingData);
     return resp.data; // assume booking confirmation
   }
 );
 
 // New: GET /vehicles
-export const fetchVehicles = createAsyncThunk(
-  'customerDashboard/fetchVehicles',
+export const fetchVehicles = createAsyncThunk( 
+  "customerDashboard/fetchVehicles",
   async (_, thunkAPI) => {
-    const resp = await axios.get('/vehicles');
+    const resp = await axios.get("/vehicles");
     return resp.data; // array of vehicle objects
+  }
+);
+
+export const customerBook = createAsyncThunk(
+  "customerDashboard/customerBook",
+  async ({ token, vehicleNumber, vehicleId, seatCount }, thunkAPI) => {
+    const resp = await axios.post(
+      "/customer/book",
+      { vehicleNumber, customerId:vehicleId, seatCount },
+      { params: { token } }
+    );
+    return resp.data;
   }
 );

@@ -81,7 +81,7 @@ const sellerSlice = createSlice({
       })
       .addCase(fetchVehicles.fulfilled, (state, { payload }) => {
         state.statusVehicles = 'succeeded';
-        state.vehicles       = payload.vehicles;
+        state.vehicles = payload.vehicles;
       })
       .addCase(fetchVehicles.rejected, (state, { payload, error }) => {
         state.statusVehicles = 'failed';

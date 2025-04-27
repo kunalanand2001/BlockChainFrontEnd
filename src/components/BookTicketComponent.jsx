@@ -4,11 +4,13 @@ import { Card, Form, ListGroup, Spinner, Alert, Row, Col, Button, InputGroup, Co
 import { useSelector } from 'react-redux';
 import VehicleListItem from './VehicleListItem';
 
+
 export default function BookTicketComponent() {
-  const [selectedType, setSelectedType] = useState('Bus')
+  const [selectedType, setSelectedType] = useState('All')
   const [filtered, setFiltered]         = useState([])
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState(null)
+  const [minSeats, setMinSeats] = useState(1)
   const vehicles = useSelector(state=>state.customerDashboard.vehicles)
   // filter state
   const [date, setDate]                 = useState('')
@@ -17,14 +19,22 @@ export default function BookTicketComponent() {
 
     // box style
     const boxStyle = {
-        maxWidth: '900px',
+        width: '1300px',
+        height: '1000px',
         margin: '30px auto',
-        padding: '30px',
+        
         borderRadius: '15px',
         background: '#f8f9fa', // Light gray background
         border: '1px solid #dee2e6', // Light gray border
         boxShadow: '0 4px 8px rgba(0,0,0,0.05)' // Subtle shadow
     };
+
+    const innerboxStyle = {
+        marginTop: '250px',
+        width: '1000px',
+        height: '800px',
+        marginTop: '20px'
+    }
 
     const filterStyle = {
         background: '#ffffff', // White background
@@ -40,15 +50,21 @@ export default function BookTicketComponent() {
   // apply filters
   useEffect(() => {
     let list = vehicles
-    if (fromLocation)   list = list.filter(v => v.from?.toLowerCase().includes(fromLocation.toLowerCase()))
-    if (toLocation)     list = list.filter(v => v.to?.toLowerCase().includes(toLocation.toLowerCase()))
+    if (fromLocation)   list = list.filter(v => v.source?.toLowerCase().includes(fromLocation.toLowerCase()))
+    if (toLocation)     list = list.filter(v => v.destination?.toLowerCase().includes(toLocation.toLowerCase()))
+    if (minSeats > 0) 
+        list = list.filter(v => v.availableSeats >= minSeats)
+    if(selectedType === "All") list = list
+    if(selectedType && selectedType !== "All") list = list.filter(v => v.mode?.toLowerCase().includes(selectedType.toLowerCase()))
+    
     setFiltered(list)
-  }, [fromLocation, toLocation, vehicles])
+  }, [fromLocation, toLocation, vehicles, selectedType])
 
   return (
     <Container className="mt-5">
+
         <Card style={boxStyle}>
-            <Card.Body>
+            <Card.Body style={innerboxStyle}> 
                 <Card.Title className="text-center mb-4" style={{ fontSize: '2rem', fontWeight: '600', color: '#333' }}>
                     Book Your Ticket
                 </Card.Title>
@@ -62,11 +78,25 @@ export default function BookTicketComponent() {
                         onChange={e => setSelectedType(e.target.value)}
                         className="form-select-sm"
                     >
+                        <option>All</option>
                         <option>Bus</option>
                         <option>Train</option>
                         <option>Flight</option>
                     </Form.Select>
                 </Form.Group>
+
+                
+          <Form.Group controlId="seatFilter">
+            <Form.Label>
+              Min. Seats: <strong>{minSeats}</strong>
+            </Form.Label>
+            <Form.Range
+              min={1}
+              max={70}
+              value={minSeats}
+              onChange={e => setMinSeats(Number(e.target.value))}
+            />
+          </Form.Group>
 
                 {/* Filters Row: From / To / Date */}
                 <Form className="mb-4">
@@ -107,7 +137,7 @@ export default function BookTicketComponent() {
 }
 
 const VehicleList = ({ selectedType, filtered }) => (
-    <ListGroup className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ced4da' }}>
+    <ListGroup  className="mt-3" style={{ maxHeight: '500px', overflowY: 'auto', border: '1px solid #ced4da' }}>
         {filtered.length === 0 ? (
             <ListGroup.Item className="text-center fst-italic" style={{ color: '#555' }}>
                 No {selectedType.toLowerCase()}s match your filters
@@ -119,20 +149,3 @@ const VehicleList = ({ selectedType, filtered }) => (
         )}
     </ListGroup>
 );
-
-// [
-//     {
-//         "vehicleId": "vehicle-0f0c58e6-d11d-42cc-9a84-b8dfdf840bfc",
-//         "sellerId": "ab@ab.com",
-//         "source": "Lko",
-//         "destination": "Knp",
-//         "departureDate": "2025-11-11",
-//         "departureTime": "11:11",
-//         "mode": "flight",
-//         "seatCapacity": 12,
-//         "availableSeats": 12,
-//         "basePrice": 310.0,
-//         "currentPrice": 310.0,
-//         "sellerRating": 3.75
-//     },
-// ]

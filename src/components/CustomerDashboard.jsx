@@ -14,25 +14,24 @@ import BookTicketComponent from './BookTicketComponent';
 import MyBookingsComponent from './MyBookingsComponent';
 import TransactionsComponent from './TransactionsComponent';
 import { fetchVehicles } from '../features/customer/customerDashboardThunks';
+import { fetchProfile } from '../features/auth/authThunks';
+import CustomerTicketComponent from './CustomerTicketComponent';
 
 export default function CustomerDashboard() {
   const dispatch = useDispatch();
+  const role = useSelector(state=>state.auth.role);
+  const token = useSelector(state=>state.auth.token);
   const { bookings, transactions, bookingResult, status, error } =
     useSelector(state => state.customerDashboard);
 
   const [activeTab, setActiveTab] = useState('bookings');
   const [ticketData, setTicketData] = useState({ tripId: '', seats: 1 });
-
   // Fetch data when tab changes
   useEffect(() => {
-    if (activeTab === 'bookings') dispatch(fetchBookings());
-    else if (activeTab === 'transactions') dispatch(fetchTransactions());
-  }, [activeTab, dispatch]);
+    if (activeTab === 'bookings') dispatch(fetchBookings({token}));
+   else if (activeTab === 'transactions') dispatch(fetchTransactions({ role, token }));
+  }, [activeTab]);
 
-  const handleBookTicket = e => {
-    e.preventDefault();
-    dispatch(bookTicket(ticketData));
-  };
 
   return (
     <Container className="customer-dashboard mt-4">
@@ -58,7 +57,9 @@ export default function CustomerDashboard() {
           </Button>
           <Button
             style={buttonStyle}
-            onClick={() => setActiveTab('transactions')}
+            onClick={() => {
+              setActiveTab('transactions');
+              }}
             active={activeTab === 'transactions'}
           >
             Transactions
@@ -70,10 +71,9 @@ export default function CustomerDashboard() {
         <Col md={10} className="dashboard-content">
             <div className="content-container">
             {status === 'loading' && <p>Loading…</p>}
-            {error && <Alert variant="danger">{error}</Alert>}
 
             {activeTab === 'bookings' && (
-              <MyBookingsComponent />
+              <CustomerTicketComponent />
             )}
 
             {activeTab === 'bookTicket' && (
@@ -81,12 +81,10 @@ export default function CustomerDashboard() {
                 <BookTicketComponent />
               </div>
             )}
-
-
-
-          {activeTab === 'transactions' && (
-            <TransactionsComponent/>
-          )}
+            
+            {activeTab === 'transactions' && (
+              <TransactionsComponent/>
+            )}
           </div>
         </Col>
       </Row>

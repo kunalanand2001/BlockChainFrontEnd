@@ -3,7 +3,8 @@ import {
   fetchBookings,
   fetchTransactions,
   bookTicket,
-  fetchVehicles
+  fetchVehicles,
+  fetchTickets
 } from './customerDashboardThunks';
 
 const initialState = {
@@ -14,7 +15,9 @@ const initialState = {
   error: null,
   vehicles: [],
   vehiclesStatus: 'idle',
-  vehiclesError: null
+  vehiclesError: null,
+  isModalOpen: false,
+  modalVehicle: null
 };
 
 const customerDashboardSlice = createSlice({
@@ -37,7 +40,7 @@ const customerDashboardSlice = createSlice({
       .addCase(fetchTransactions.pending, state => { state.status = 'loading'; })
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.transactions = action.payload;
+        state.transactions = action.payload.transactions;
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.status = 'failed';
@@ -64,8 +67,19 @@ const customerDashboardSlice = createSlice({
       .addCase(fetchVehicles.rejected, (state, action) => {
         state.vehiclesStatus = 'failed';
         state.vehiclesError = action.error.message;
-      });
-  }
+      })
+  },
+  reducers:{
+    openModal:(state,action)=>{
+      state.isModalOpen = true;
+      state.modalVehicle = action.payload
+    },
+    closeModal:(state)=>{
+      state.isModalOpen = false;
+      state.modalVehicle = null
+    }
+  },
 });
 
+export const {openModal, closeModal} = customerDashboardSlice.actions
 export default customerDashboardSlice.reducer;
