@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { logout } from '../features/auth/authSlice'
-import { fetchProfile } from '../features/auth/authThunks'
+import { fetchProfile, getBalance } from '../features/auth/authThunks'
 import SellerDashboard from './SellerDashboard'
 import CustomerDashboard from './CustomerDashboard'
 
@@ -13,7 +13,8 @@ function HomePage() {
   const user  = useSelector(state => state.auth.user)
   const role  = useSelector(state => state.auth.role)
   const token = useSelector(state => state.auth.token)
-
+  const balance = useSelector(state => state.auth.balance)
+  
   const handleViewProfile = () => {
     if (!token || !role) return
 
@@ -32,6 +33,10 @@ function HomePage() {
         alert('Failed to load profile. Please try again.')
       })
   }
+
+  useEffect(() => {
+    dispatch(getBalance({ role, token }))
+  }, [])
 
   // Style objects for inline styling
   const containerStyle = {
@@ -85,6 +90,18 @@ function HomePage() {
     alignItems: 'center'
   }
 
+  const balanceContainerStyle = {
+    backgroundColor: 'green',
+    color: 'white',
+    padding: '10px 15px',
+    borderRadius: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginRight: '10px',
+  };
+
+
   return (
     <div style={containerStyle}>
       <div style={headerRowStyle}>
@@ -92,12 +109,20 @@ function HomePage() {
           <h1>Welcome, {user?.name || 'Guest'}!</h1>
           <p>Role: {role || 'None'}</p>
         </div>
+        <div>
+          {(
+            <div style={balanceContainerStyle}>
+              <span>💰</span>
+              <span>Balance: {balance}</span>
+            </div>
+          )}
+        </div>
         <div style={buttonGroupStyle}>
           <button onClick={handleViewProfile} style={buttonStyle}>
             View Profile
           </button>
           {role === 'customer' && (
-            <Link to="/addBalance" style={linkButtonStyle}>Add Balance</Link>
+            <Link to="/customer/addbalance" style={linkButtonStyle}>Add Balance</Link>
           )}
           {role === 'seller' && (
             <Link to="/addBalance" style={linkButtonStyle}>Add Balance</Link>
