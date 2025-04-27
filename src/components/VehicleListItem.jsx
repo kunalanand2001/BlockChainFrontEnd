@@ -1,12 +1,13 @@
 // src/components/VehicleListItem.jsx
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeVehicle } from '../features/seller/sellerThunks';
 import './VehicleListItem.css';
 
 export default function VehicleListItem({ vehicle }) {
   const dispatch = useDispatch();
   const [deleting, setDeleting] = useState(false);
+  const role = useSelector(state=>state.auth.role);
 
   const handleRemove = async () => {
     if (!window.confirm('Remove this vehicle?')) return;
@@ -42,13 +43,13 @@ export default function VehicleListItem({ vehicle }) {
           <div className="value">₹ {vehicle.basePrice}</div>
         </div>
       </div>
-      <button
+      {role === "seller" && (<button
         className="remove-button"
         onClick={handleRemove}
         disabled={deleting}
       >
         {deleting ? 'Removing…' : 'Remove'}
-      </button>
+      </button>)}
     </div>
   );
 }
