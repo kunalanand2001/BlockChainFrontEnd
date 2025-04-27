@@ -104,7 +104,7 @@ export default function CustomerRegister({ onSubmit }) {
           />
           <span className="visibility-label">Visible</span>
         </div>
-        <button type="button" className="auth-login-button ">
+        <button type="submit" className="auth-login-button ">
           Register Customer
         </button>
       </form>

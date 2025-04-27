@@ -37,7 +37,7 @@ const customerDashboardSlice = createSlice({
       .addCase(fetchTransactions.pending, state => { state.status = 'loading'; })
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.transactions = action.payload;
+        state.transactions = action.payload.transactions;
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.status = 'failed';

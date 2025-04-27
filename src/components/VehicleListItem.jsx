@@ -39,8 +39,8 @@ export default function VehicleListItem({ vehicle }) {
           <div className="value">{vehicle.seatCapacity}</div>
         </div>
         <div>
-          <div className="label">Base Price</div>
-          <div className="value">₹ {vehicle.basePrice}</div>
+          <div className="label">Current Price</div>
+          <div className="value">₹ {vehicle.currentPrice}</div>
         </div>
       </div>
       {role === "seller" && (<button

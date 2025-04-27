@@ -40,10 +40,13 @@ export default function BookTicketComponent() {
   // apply filters
   useEffect(() => {
     let list = vehicles
-    if (fromLocation)   list = list.filter(v => v.from?.toLowerCase().includes(fromLocation.toLowerCase()))
-    if (toLocation)     list = list.filter(v => v.to?.toLowerCase().includes(toLocation.toLowerCase()))
+    if (fromLocation)   list = list.filter(v => v.source?.toLowerCase().includes(fromLocation.toLowerCase()))
+    if (toLocation)     list = list.filter(v => v.destination?.toLowerCase().includes(toLocation.toLowerCase()))
+    if(selectedType === "All") list = list
+    if(selectedType && selectedType !== "All") list = list.filter(v => v.mode?.toLowerCase().includes(selectedType.toLowerCase()))
+    
     setFiltered(list)
-  }, [fromLocation, toLocation, vehicles])
+  }, [fromLocation, toLocation, vehicles, selectedType])
 
   return (
     <Container className="mt-5">
@@ -62,6 +65,7 @@ export default function BookTicketComponent() {
                         onChange={e => setSelectedType(e.target.value)}
                         className="form-select-sm"
                     >
+                        <option>All</option>
                         <option>Bus</option>
                         <option>Train</option>
                         <option>Flight</option>
