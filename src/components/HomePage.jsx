@@ -121,10 +121,7 @@ function HomePage() {
           <button onClick={handleViewProfile} style={buttonStyle}>
             View Profile
           </button>
-          {role === 'customer' && (
-            <Link to="/customer/addbalance" style={linkButtonStyle}>Add Balance</Link>
-          )}
-          {role === 'seller' && (
+          {(
             <Link to="/addBalance" style={linkButtonStyle}>Add Balance</Link>
           )}
 

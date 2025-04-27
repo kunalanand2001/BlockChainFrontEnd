@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeVehicle } from '../features/seller/sellerThunks';
+import { openModal } from '../features/customer/customerDashboardSlice';
 import './VehicleListItem.css';
 
+
+  
 export default function VehicleListItem({ vehicle }) {
   const dispatch = useDispatch();
   const [deleting, setDeleting] = useState(false);
-  const role = useSelector(state=>state.auth.role);
+  const role = useSelector(state => state.auth.role);
 
   const handleRemove = async () => {
     if (!window.confirm('Remove this vehicle?')) return;
@@ -23,33 +26,42 @@ export default function VehicleListItem({ vehicle }) {
     }
   };
 
+  const handleOpenModal = () => {
+      console.log("Here")
+      dispatch(openModal(vehicle));
+  }
   return (
     <div className="vehicle-card">
-      <div className="vehicle-info">
-        <div>
-          <div className="label">Vehicle ID</div>
-          <div className="value">{vehicle.vehicleId}</div>
-        </div>
-        <div>
-          <div className="label">Available Seats</div>
-          <div className="value">{vehicle.availableSeats}</div>
-        </div>
-        <div>
-          <div className="label">Seat Capacity</div>
-          <div className="value">{vehicle.seatCapacity}</div>
-        </div>
-        <div>
-          <div className="label">Base Price</div>
-          <div className="value">₹ {vehicle.basePrice}</div>
+      <div className='vehicle-card-content'>
+        <div className="vehicle-info">
+          <div>
+            <div className="label">Vehicle ID</div>
+            <div className="value">{vehicle.vehicleId}</div>
+          </div>
+          <div>
+            <div className="label">Available Seats</div>
+            <div className="value">{vehicle.availableSeats}</div>
+          </div>
+          <div>
+            <div className="label">Seat Capacity</div>
+            <div className="value">{vehicle.seatCapacity}</div>
+          </div>
+          <div>
+            <div className="label">Base Price</div>
+            <div className="value">₹ {vehicle.basePrice}</div>
+          </div>
         </div>
       </div>
-      {role === "seller" && (<button
-        className="remove-button"
-        onClick={handleRemove}
-        disabled={deleting}
-      >
-        {deleting ? 'Removing…' : 'Remove'}
-      </button>)}
+      <div className='vehicle-card-actions'>
+        {role === "seller" && (<button
+          className="remove-button"
+          onClick={handleRemove}
+          disabled={deleting}
+        >
+          {deleting ? 'Removing…' : 'Remove'}
+        </button>)}
+        {role === "customer" && (<button className="book-button" onClick={handleOpenModal}>Book Now</button>)}
+      </div>
     </div>
   );
 }

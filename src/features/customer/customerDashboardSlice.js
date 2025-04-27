@@ -14,7 +14,9 @@ const initialState = {
   error: null,
   vehicles: [],
   vehiclesStatus: 'idle',
-  vehiclesError: null
+  vehiclesError: null,
+  isModalOpen: false,
+  modalVehicle: null
 };
 
 const customerDashboardSlice = createSlice({
@@ -65,7 +67,18 @@ const customerDashboardSlice = createSlice({
         state.vehiclesStatus = 'failed';
         state.vehiclesError = action.error.message;
       });
-  }
+  },
+  reducers:{
+    openModal:(state,action)=>{
+      state.isModalOpen = true;
+      state.modalVehicle = action.payload
+    },
+    closeModal:(state)=>{
+      state.isModalOpen = false;
+      state.modalVehicle = null
+    }
+  },
 });
 
+export const {openModal, closeModal} = customerDashboardSlice.actions
 export default customerDashboardSlice.reducer;

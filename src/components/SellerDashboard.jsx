@@ -48,7 +48,7 @@ export default function SellerDashboard() {
       {activeTab === 'vehicles' ? (
         <div className="content">
           <div className="actions">
-            <h2>Vehicles ( {vehicles.length} )</h2>
+            <h2>Vehicles ( {vehicles?.length} )</h2>
             <button
               className="button"
               onClick={() => navigate('/seller/vehicle/add')}
@@ -58,9 +58,9 @@ export default function SellerDashboard() {
           </div>
 
           {vehStatus === 'loading' && <p>Loading vehicles…</p>}
-          <div className="scrollable-list">
+          {vehicles && (<div className="scrollable-list">
             {vehicles.map(v => <VehicleListItem  vehicle={v} />)}
-          </div>
+          </div>)}
         </div>
       ) : (
         <div className="content">
