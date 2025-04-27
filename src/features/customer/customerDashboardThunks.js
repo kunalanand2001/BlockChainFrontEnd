@@ -11,10 +11,10 @@ export const fetchBookings = createAsyncThunk(
 );
 
 // Fetch transaction history
-export const fetchTransactions = createAsyncThunk( 
-  "customerDashboard/fetchTransactions",
-  async (_, thunkAPI) => {
-    const resp = await axios.get('/customer/transactions');
+export const fetchTransactions = createAsyncThunk(
+  'customerDashboard/fetchTransactions',
+  async ({role, token}, thunkAPI) => {
+    const resp = await axios.post(`/customer/get`, { value: token })
     return resp.data; // assume array of transactions
   }
 );

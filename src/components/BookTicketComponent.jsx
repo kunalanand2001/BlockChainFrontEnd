@@ -46,8 +46,11 @@ export default function BookTicketComponent() {
     if (toLocation)     list = list.filter(v => v.destination?.toLowerCase().includes(toLocation.toLowerCase()))
     if (minSeats > 0) 
         list = list.filter(v => v.availableSeats >= minSeats)
+    if(selectedType === "All") list = list
+    if(selectedType && selectedType !== "All") list = list.filter(v => v.mode?.toLowerCase().includes(selectedType.toLowerCase()))
+    
     setFiltered(list)
-  }, [fromLocation, toLocation, vehicles])
+  }, [fromLocation, toLocation, vehicles, selectedType])
 
   return (
     <Container className="mt-5">
@@ -67,6 +70,7 @@ export default function BookTicketComponent() {
                         onChange={e => setSelectedType(e.target.value)}
                         className="form-select-sm"
                     >
+                        <option>All</option>
                         <option>Bus</option>
                         <option>Train</option>
                         <option>Flight</option>

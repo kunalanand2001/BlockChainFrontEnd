@@ -39,6 +39,7 @@ export const fetchProfile = createAsyncThunk(
   'auth/fetchProfile',
   async ({ role, token }, { rejectWithValue }) => {
     try {
+      console.log("insode fetch");
       // your API expects { value: token } in the body
       const resp = await axios.post(`/${role}/get`, { value: token })
       return resp.data      // full user object
