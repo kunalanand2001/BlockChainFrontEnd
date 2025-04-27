@@ -1,0 +1,100 @@
+/* Container */
+.dashboard-container {
+    padding: 2rem;
+    font-family: sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+  }
+  
+  /* Tabs */
+  .tab-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 0;
+    background: #e0e4eb;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+  }
+  .tab:hover {
+    background: #d0d4db;
+  }
+  .tab.active {
+    background: #007bff;
+    color: white;
+  }
+  
+  /* Section header + actions */
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .actions h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  .button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  .button:hover {
+    background: #218838;
+  }
+  
+  /* Scrollable list + fade mask */
+  .scrollable-list {
+    position: relative;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+  
+  /* fade-out overlay at top */
+  .scrollable-list::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 40px;
+    background: linear-gradient(
+      to bottom,
+      rgba(245,247,250, 1),
+      rgba(245,247,250, 0)
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* List items */
+  .list-item {
+    background: white;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    position: relative;
+    z-index: 0;
+  }
+  .list-item h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+  .list-item p {
+    margin: 0.25rem 0;
+    color: #555;
+    font-size: 0.95rem;
+  }
+  

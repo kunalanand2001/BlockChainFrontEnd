@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setRole } from '../features/auth/authSlice';
+import './LandingPage.css';
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -13,10 +14,13 @@ export default function LandingPage() {
   };
 
   return (
-    <div>
-      <h1>Choose Account Type</h1>
-      <button onClick={() => choose('customer')}>Customer</button>
-      <button onClick={() => choose('seller')}>Seller</button>
+    <div className="landing-container">
+      <div className="card customer" onClick={() => choose('customer')}>
+        <h2>Customer</h2>
+      </div>
+      <div className="card seller" onClick={() => choose('seller')}>
+        <h2>Seller</h2>
+      </div>
     </div>
   );
 }

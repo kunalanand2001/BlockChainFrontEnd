@@ -27,3 +27,12 @@ export const bookTicket = createAsyncThunk(
     return resp.data; // assume booking confirmation
   }
 );
+
+// New: GET /vehicles
+export const fetchVehicles = createAsyncThunk(
+  'customerDashboard/fetchVehicles',
+  async (_, thunkAPI) => {
+    const resp = await axios.get('/vehicles');
+    return resp.data; // array of vehicle objects
+  }
+);

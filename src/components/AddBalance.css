@@ -1,0 +1,139 @@
+.add-balance-form {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+    z-index: 1000;
+  }
+  .add-balance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .add-balance-input {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .add-balance-input:focus {
+    border-color: #387b3b;
+    outline: none;
+  }
+  
+  .add-balance-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .add-balance-form button:hover {
+    background-color: #387b3b;
+    transform: translateY(-2px);
+  }
+  
+  .success-message {
+    color: #4CAF50;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  
+  .add-balance-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .add-balance-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .add-balance-form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-balance-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .add-balance-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 4px;
+    background-color: #ffebee;
+  }
+  
+  .success-message {
+      color: green;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid green;
+      border-radius: 4px;
+      background-color: #e8f5e9;
+  }

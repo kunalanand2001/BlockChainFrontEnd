@@ -62,3 +62,26 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
+
+export const addBalance = createAsyncThunk(
+  'auth/addBalance',
+  async ({ role, token, amount }, thunkAPI) => {
+    const params = new URLSearchParams({ token, amount });
+    const response = await axios.post(
+      `/${role}/addBalance?${params.toString()}`
+    );
+    return response.data;
+  }
+);
+
+
+export const getBalance = createAsyncThunk(
+  'auth/balance',
+  async ({ role, token }, thunkAPI) => {
+    const params = new URLSearchParams({ token });
+    const response = await axios.post(
+      `/${role}/balance?${params.toString()}`
+    );
+    return response.data;
+  }
+);
