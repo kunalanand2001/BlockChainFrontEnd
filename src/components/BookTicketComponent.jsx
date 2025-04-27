@@ -6,7 +6,7 @@ import VehicleListItem from './VehicleListItem';
 
 
 export default function BookTicketComponent() {
-  const [selectedType, setSelectedType] = useState('Bus')
+  const [selectedType, setSelectedType] = useState('All')
   const [filtered, setFiltered]         = useState([])
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState(null)
@@ -20,9 +20,9 @@ export default function BookTicketComponent() {
     // box style
     const boxStyle = {
         width: '1300px',
-        height: '600px',
+        height: '1000px',
         margin: '30px auto',
-        padding: '30px',
+        
         borderRadius: '15px',
         background: '#f8f9fa', // Light gray background
         border: '1px solid #dee2e6', // Light gray border
@@ -31,7 +31,8 @@ export default function BookTicketComponent() {
 
     const innerboxStyle = {
         width: '1000px',
-        height: '800px'
+        height: '800px',
+        marginTop: '20px'
     }
 
     const filterStyle = {
