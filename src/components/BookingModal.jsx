@@ -64,7 +64,7 @@ function BookingModal({ isModalOpen, closeModal, vehicle }) {
 
       {!bookingSuccess && (
         <div className='booking-modal-footer'>
-          <button
+          <button style={{backgroundColor: '#007bff'}}
             className="book-button"
             onClick={handleBook}
             disabled={bookingLoading || vehicle.availableSeats === 0}

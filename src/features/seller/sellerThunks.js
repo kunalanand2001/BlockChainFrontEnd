@@ -7,7 +7,15 @@ export const fetchVehicles = createAsyncThunk(
     const { token } = getState().auth;
     try {
       const resp = await axios.post('/seller/get', { value: token });
-      return resp.data;   // array of vehicles
+      const vehicleIds = resp.data.vehicles;
+      const detailPromises = vehicleIds.map(id =>
+        axios.get(`/vehicle/${id}`)
+      );
+      
+      const responses = await Promise.all(detailPromises);
+
+      const vehicles = responses.map(r => r.data);
+      return vehicles; // array of vehicles
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
