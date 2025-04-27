@@ -17,7 +17,8 @@ export default function BookTicketComponent() {
 
     // box style
     const boxStyle = {
-        maxWidth: '900px',
+        width: '1300px',
+        height: '600px',
         margin: '30px auto',
         padding: '30px',
         borderRadius: '15px',
@@ -25,6 +26,11 @@ export default function BookTicketComponent() {
         border: '1px solid #dee2e6', // Light gray border
         boxShadow: '0 4px 8px rgba(0,0,0,0.05)' // Subtle shadow
     };
+
+    const innerboxStyle = {
+        width: '1000px',
+        height: '800px'
+    }
 
     const filterStyle = {
         background: '#ffffff', // White background
@@ -51,7 +57,7 @@ export default function BookTicketComponent() {
   return (
     <Container className="mt-5">
         <Card style={boxStyle}>
-            <Card.Body>
+            <Card.Body style={innerboxStyle}> 
                 <Card.Title className="text-center mb-4" style={{ fontSize: '2rem', fontWeight: '600', color: '#333' }}>
                     Book Your Ticket
                 </Card.Title>
@@ -111,7 +117,7 @@ export default function BookTicketComponent() {
 }
 
 const VehicleList = ({ selectedType, filtered }) => (
-    <ListGroup className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ced4da' }}>
+    <ListGroup  className="mt-3" style={{ maxHeight: '500px', overflowY: 'auto', border: '1px solid #ced4da' }}>
         {filtered.length === 0 ? (
             <ListGroup.Item className="text-center fst-italic" style={{ color: '#555' }}>
                 No {selectedType.toLowerCase()}s match your filters

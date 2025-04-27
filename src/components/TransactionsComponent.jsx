@@ -10,11 +10,13 @@ export default function TransactionsComponent() {
   
 
   const cardStyle = {
-    margin: '20px auto',
+    margin: '10px 0px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    padding: '10px auto',
     borderRadius: '10px',
     border: 'none',
-    height: 'calc(50vh - 40px)', // Set a fixed height (viewport height - margin)
+    width: '1300px',
+    height: '800px', // Set a fixed height (viewport height - margin)
     overflowY: 'auto', // Enable vertical scrolling
   };
 
@@ -39,14 +41,18 @@ export default function TransactionsComponent() {
     marginTop: '0', // Remove top margin as it's within the card
     textAlign: 'center',
     marginBottom: '0', // Remove bottom margin
+    width: '1000px',
+    height: '700px'
   };
 
   const headerStyle = {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#dee2e6',
     fontWeight: 'bold',
     borderBottom: '1px solid #dee2e6',
-    padding: '10px',
+    padding: '0px',
     borderRadius: '10px 10px 0 0', // Apply border-radius to the top
+    textAlign: 'center', 
+    fontSize: 'large'
   };
 
   useEffect(() => {
@@ -62,9 +68,6 @@ export default function TransactionsComponent() {
 
   return (
     <Card style={cardStyle}>
-      <Card.Header style={headerStyle}>
-        <h5 className="m-0">Transaction History</h5>
-      </Card.Header>
       <Card.Body className="p-3" style={{ padding: 0 }}> {/* Remove padding from Card.Body to control table spacing */}
         {loading && (
           <div className="text-center py-3">
@@ -74,7 +77,9 @@ export default function TransactionsComponent() {
         {error && (
           <Alert variant="danger" className="mb-3">{error}</Alert>
         )}
-
+        <Card.Header style={headerStyle}>
+        <h5 className="m-0">Transaction History</h5>
+      </Card.Header>
         <Table striped bordered hover responsive style={tableStyle} className="mb-0"> {/* Remove margin-bottom from Table */}
           <thead>
             <tr>
