@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   registerCustomer, loginCustomer,
-  registerSeller, loginSeller, fetchProfile, updateProfile, addBalance
+  registerSeller, loginSeller, fetchProfile, updateProfile, addBalance,
+  getBalance
 } from './authThunks';
 
 const initialState = {
@@ -9,7 +10,8 @@ const initialState = {
   token: null,
   role: null,      // 'customer' or 'seller'
   status: 'idle',
-  error: null
+  error: null,
+  balance: 0
 };
 
 
@@ -111,6 +113,10 @@ const authSlice = createSlice({
         state.error = action.error.message;
       })
 
+      .addCase(getBalance.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.balance = payload.value
+      })
 
   }
 });
