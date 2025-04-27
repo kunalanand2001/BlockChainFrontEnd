@@ -15,6 +15,7 @@ import MyBookingsComponent from './MyBookingsComponent';
 import TransactionsComponent from './TransactionsComponent';
 import { fetchVehicles } from '../features/customer/customerDashboardThunks';
 import { fetchProfile } from '../features/auth/authThunks';
+import CustomerTicketComponent from './CustomerTicketComponent';
 
 export default function CustomerDashboard() {
   const dispatch = useDispatch();
@@ -25,11 +26,9 @@ export default function CustomerDashboard() {
 
   const [activeTab, setActiveTab] = useState('bookings');
   const [ticketData, setTicketData] = useState({ tripId: '', seats: 1 });
-
   // Fetch data when tab changes
   useEffect(() => {
-    console.log("inside useEffect");
-    if (activeTab === 'bookings') dispatch(fetchBookings());
+    if (activeTab === 'bookings') dispatch(fetchBookings({token}));
    else if (activeTab === 'transactions') dispatch(fetchTransactions({ role, token }));
   }, [activeTab]);
 
@@ -74,7 +73,7 @@ export default function CustomerDashboard() {
             {status === 'loading' && <p>Loading…</p>}
 
             {activeTab === 'bookings' && (
-              <MyBookingsComponent />
+              <CustomerTicketComponent />
             )}
 
             {activeTab === 'bookTicket' && (

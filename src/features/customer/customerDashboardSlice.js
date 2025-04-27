@@ -3,7 +3,8 @@ import {
   fetchBookings,
   fetchTransactions,
   bookTicket,
-  fetchVehicles
+  fetchVehicles,
+  fetchTickets
 } from './customerDashboardThunks';
 
 const initialState = {
@@ -66,7 +67,7 @@ const customerDashboardSlice = createSlice({
       .addCase(fetchVehicles.rejected, (state, action) => {
         state.vehiclesStatus = 'failed';
         state.vehiclesError = action.error.message;
-      });
+      })
   },
   reducers:{
     openModal:(state,action)=>{

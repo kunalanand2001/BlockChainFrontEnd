@@ -30,6 +30,7 @@ export default function BookTicketComponent() {
     };
 
     const innerboxStyle = {
+        marginTop: '250px',
         width: '1000px',
         height: '800px',
         marginTop: '20px'

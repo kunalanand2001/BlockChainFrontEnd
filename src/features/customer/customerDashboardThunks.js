@@ -4,8 +4,9 @@ import axios from '../../api/axiosConfig';
 // Fetch existing bookings
 export const fetchBookings = createAsyncThunk(
   "customerDashboard/fetchBookings",
-  async (_, thunkAPI) => {
-    const resp = await axios.get('/customer/bookings');
+  async ({token}, thunkAPI) => {
+    const params = new URLSearchParams({ token });
+    const resp = await axios.post(`/customer/booking?${params.toString()}`)
     return resp.data; // assume array of bookings
   }
 );
