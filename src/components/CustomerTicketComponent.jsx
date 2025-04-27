@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, ListGroup, Spinner, Alert, Row, Col, Button, Form, InputGroup, Container, Badge } from 'react-bootstrap';
-import { fetchBookings } from '../features/customer/customerDashboardThunks';
-
+import { cancelBooking, fetchBookings, rateSeller } from '../features/customer/customerDashboardThunks';
+import StarRatingComponent from 'react-star-rating-component';
 export default function CustomerTicketComponent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -39,17 +39,6 @@ export default function CustomerTicketComponent() {
             My Tickets
           </Card.Title>
 
-          {/* Refresh Button */}
-          <div className="text-end mb-3">
-            <Button 
-              variant="outline-primary" 
-              onClick={fetchBookings}
-              disabled={loading}
-            >
-              {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Refresh'}
-            </Button>
-          </div>
-
           {/* Loading Indicator */}
           {loading && (
             <div className="text-center py-5">
@@ -83,42 +72,51 @@ const TicketList = ({ tickets }) => (
   </ListGroup>
 );
 
-const TicketListItem = ({ ticket }) => (
+const TicketListItem = ({ ticket }) => {
+  const [rating, setRating] = useState(0)
+  const dispatch = useDispatch()
+  const token = useSelector(s => s.auth.token);
+  const onStarClick = (nextValue, prevValue, name) =>  {
+    setRating(nextValue)
+    dispatch(rateSeller({ sellerId: ticket.sellerId, rating: nextValue }))
+  }
+const handleCancel = () => {
+  dispatch(cancelBooking({
+    ticketId: ticket.ticketId,
+    token
+  }))
+}
+  return (
   <ListGroup.Item className="py-3">
     <Row>
       <Col md={8}>
-        <h5 className="mb-1">
-          {ticket.seatCount} • {ticket.pricePaid}
-        </h5>
-        <div className="text-muted mb-2">
-          <small>
-            {ticket.bookingTime} 
-          </small>
-        </div>
-        <div>
-          <Badge 
-            bg={
-              ticket.status === 'Active' ? 'success' :
-              ticket.status === 'Completed' ? 'secondary' :
-              ticket.status === 'Cancelled' ? 'danger' : 'info'
-            }
-          >
-            {ticket.status || 'Booked'}
-          </Badge>
-          <span className="ms-2">Vehicle ID: {ticket.vehicleId}</span>
-        </div>
+      <h3 className="mb-1">
+          {ticket.source} --   {ticket.destination} 
+        </h3>
+        <h3 className="mb-1">
+          Seats Booked --  {ticket.seatCount} 
+        </h3>
+        <h3 className="mb-1">
+          Departure -- {ticket.departureDate} {ticket.departureTime} 
+        </h3>
+        <h3 className="mb-1">
+          Price Paid -- ₹ {ticket.pricePaid} 
+        </h3>
       </Col>
       <Col md={4} className="text-end d-flex flex-column justify-content-between">
-        <div>
-          <h5 className="mb-0">₹{ticket.currentPrice}</h5>
-          <small className="text-muted">Seat: {ticket.seatNumber}</small>
-        </div>
         <div className="mt-2">
-          <Button variant="outline-primary" size="sm">
-            View Details
+          <Button onClick={handleCancel} variant="outline-primary" size="sm">
+            Cancel Booking
           </Button>
         </div>
       </Col>
+      <StarRatingComponent 
+          name="rate1" 
+          starCount={5}
+          value={rating}
+          onStarClick={onStarClick}
+          
+        />
     </Row>
   </ListGroup.Item>
-);
+)}

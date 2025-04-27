@@ -7,7 +7,28 @@ export const fetchBookings = createAsyncThunk(
   async ({token}, thunkAPI) => {
     const params = new URLSearchParams({ token });
     const resp = await axios.post(`/customer/booking?${params.toString()}`)
-    return resp.data; // assume array of bookings
+    const bookings = Array.isArray(resp.data)
+      ? resp.data
+      : resp.data.bookings || []
+      const enriched = await Promise.all(
+        bookings.map(async booking => {
+          try {
+            const params = new URLSearchParams({ vehicleId: booking.vehicle });
+            const vehicleResp = await axios.get(`/vehicle?${params.toString()}`)
+            return {
+              ...booking,
+              ...vehicleResp.data
+            }
+          } catch (err) {
+            // if the vehicle call fails, still return the booking
+            return {
+              ...booking,
+              vehicleInfo: null,
+              vehicleError: err.message
+            }
+          }
+        }))
+        return enriched;
   }
 );
 
@@ -49,3 +70,28 @@ export const customerBook = createAsyncThunk(
     return resp.data;
   }
 );
+
+export const rateSeller = createAsyncThunk(
+  'customerDashboard/rateSeller',
+  async ({ sellerId, rating }, thunkAPI) => {
+    const params = new URLSearchParams({ sellerId, rating });
+    const resp = await axios.post(
+      `/customer/rateseller?${params.toString()}`,
+    )
+    return  resp.data
+  }
+)
+
+export const cancelBooking = createAsyncThunk(
+  'customerDashboard/cancelBooking',
+  async ({ ticketId, token }, thunkAPI) => {
+    // 1) call cancelTicket
+    const params = new URLSearchParams({ ticketId, token })
+    await axios.post(`/customer/cancelTicket?${params.toString()}`)  // [3]
+
+    // 2) re-fetch bookings via the existing thunk
+    const resultAction = await thunkAPI.dispatch(fetchBookings({ token }))
+    // resultAction.payload is the new bookings array
+    return resultAction.payload
+  }
+)
