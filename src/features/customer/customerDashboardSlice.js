@@ -4,7 +4,8 @@ import {
   fetchTransactions,
   bookTicket,
   fetchVehicles,
-  fetchTickets
+  fetchTickets,
+  cancelBooking
 } from './customerDashboardThunks';
 
 const initialState = {
@@ -67,6 +68,21 @@ const customerDashboardSlice = createSlice({
       .addCase(fetchVehicles.rejected, (state, action) => {
         state.vehiclesStatus = 'failed';
         state.vehiclesError = action.error.message;
+      })
+
+
+      .addCase(cancelBooking.pending, state => {
+        state.cancelStatus = 'loading'
+        state.cancelError  = null
+      })
+      .addCase(cancelBooking.fulfilled, (state, action) => {
+        state.cancelStatus = 'succeeded'
+        // Replace bookings with the refreshed list
+        state.bookings     = action.payload
+      })
+      .addCase(cancelBooking.rejected, (state, action) => {
+        state.cancelStatus = 'failed'
+        state.cancelError  = action.error.message
       })
   },
   reducers:{
