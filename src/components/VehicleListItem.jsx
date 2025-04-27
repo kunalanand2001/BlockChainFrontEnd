@@ -39,16 +39,26 @@ export default function VehicleListItem({ vehicle }) {
             <div className="value">{vehicle.vehicleId}</div>
           </div>
           <div>
+            <div className="label">Current Price</div>
+            <div className="value">₹ {vehicle.currentPrice}</div>
+          </div>
+          <div>
+            <div className="label">Departure Time</div>
+            <div className="value">₹ {vehicle.departureTime}</div>
+          </div>
+          <div>
             <div className="label">Available Seats</div>
             <div className="value">{vehicle.availableSeats}</div>
+          </div>
+          
+
+          <div>
+            <div className="label">Departure Date</div>
+            <div className="value">₹ {vehicle.departureDate}</div>
           </div>
           <div>
             <div className="label">Seat Capacity</div>
             <div className="value">{vehicle.seatCapacity}</div>
-          </div>
-          <div>
-            <div className="label">Base Price</div>
-            <div className="value">₹ {vehicle.basePrice}</div>
           </div>
         </div>
       </div>
@@ -60,7 +70,7 @@ export default function VehicleListItem({ vehicle }) {
         >
           {deleting ? 'Removing…' : 'Remove'}
         </button>)}
-        {role === "customer" && (<button className="book-button" onClick={handleOpenModal}>Book Now</button>)}
+        {role === "customer" && (<button className="book-button" style={{backgroundColor:"#007bff"}} onClick={handleOpenModal}>Book Now</button>)}
       </div>
     </div>
   );

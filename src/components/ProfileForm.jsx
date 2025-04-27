@@ -1,7 +1,6 @@
 // src/components/ProfileForm.jsx
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { updateProfile } from '../features/auth/authThunks';
 
 export default function ProfileForm({ userType }) {
@@ -50,6 +49,7 @@ export default function ProfileForm({ userType }) {
     { key: 'name',    label: 'Full Name', editable: true },
     { key: 'address', label: 'Address',   editable: true },
     { key: 'city',    label: 'City',      editable: true },
+    ...(userType === 'seller' ? [{ key: 'rating', label: 'rating', editable:false, type: 'number' }, {key: 'ratingCount', label: 'Rating Count', editable: false, type: 'number'}] : []),
     // only for customer:
     ...(userType === 'customer'
       ? [
@@ -99,14 +99,16 @@ export default function ProfileForm({ userType }) {
           {fields.map(f => (
             <div className="detail-row" key={f.key}>
               <span className="label">{f.label}:</span>
-              <span className="value">{user[f.key] ?? '-'}</span>
+              {f.key === 'rating' && (<span className="value">{user[f.key].toFixed(2) ?? '-'}</span>
+              )}
+              {f.key !== 'rating' && (<span className="value">{user[f.key] ?? '-'}</span>)}
             </div>
           ))}
           <button onClick={() => setEditing(true)} className="primary">
             Edit Profile
           </button>
         </div>
-      )}authSlice
+      )}
     </div>
   );
 }

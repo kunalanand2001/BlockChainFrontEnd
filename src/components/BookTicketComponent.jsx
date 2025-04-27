@@ -8,14 +8,15 @@ import VehicleListItem from './VehicleListItem';
 export default function BookTicketComponent() {
   const [selectedType, setSelectedType] = useState('All')
   const [filtered, setFiltered]         = useState([])
-  const [loading, setLoading]           = useState(false)
-  const [error, setError]               = useState(null)
   const [minSeats, setMinSeats] = useState(1)
   const vehicles = useSelector(state=>state.customerDashboard.vehicles)
   // filter state
-  const [date, setDate]                 = useState('')
   const [fromLocation, setFromLocation] = useState('')
   const [toLocation, setToLocation]     = useState('')
+  const [date, setDate] = useState('');
+  const [sortOrder, setSortOrder] = useState('reset');
+
+
 
     // box style
     const boxStyle = {
@@ -43,22 +44,31 @@ export default function BookTicketComponent() {
         padding: '10px 15px'
     };
 
-  useEffect(() => {
-    setLoading(true); setError(null)
-  }, [selectedType])
-
   // apply filters
   useEffect(() => {
     let list = vehicles
-    if (fromLocation)   list = list.filter(v => v.source?.toLowerCase().includes(fromLocation.toLowerCase()))
-    if (toLocation)     list = list.filter(v => v.destination?.toLowerCase().includes(toLocation.toLowerCase()))
-    if (minSeats > 0) 
-        list = list.filter(v => v.availableSeats >= minSeats)
-    if(selectedType === "All") list = list
-    if(selectedType && selectedType !== "All") list = list.filter(v => v.mode?.toLowerCase().includes(selectedType.toLowerCase()))
+    console.log(vehicles.length);
     
+    if (fromLocation)   list = list.filter(v => v.source?.toLowerCase().includes(fromLocation.toLowerCase()))
+    
+        if (toLocation)     list = list.filter(v => v.destination?.toLowerCase().includes(toLocation.toLowerCase()))
+    
+        if (minSeats > 0) 
+        list = list.filter(v => v.availableSeats >= minSeats)
+    
+    if(selectedType === "All") list = list
+    if(selectedType && selectedType !== "All") list = list.filter(v => v.mode?.toLowerCase().includes(selectedType.toLowerCase()));
+    
+    if (date) list = list.filter(v => v.departureDate === date);
+
+    if (sortOrder === 'lowToHigh') {
+        list = list.slice().sort((a, b) => a.currentPrice - b.currentPrice);
+    } else if (sortOrder === 'highToLow') {
+        list = list.slice().sort((a, b) => b.currentPrice - a.currentPrice);
+    }
+
     setFiltered(list)
-  }, [fromLocation, toLocation, vehicles, selectedType])
+  }, [fromLocation, toLocation, vehicles, selectedType, minSeats, date, sortOrder])
 
   return (
     <Container className="mt-5">
@@ -127,6 +137,30 @@ export default function BookTicketComponent() {
                         </Col>
                     </Row>
                 </Form>
+                <Col md={4}>
+                    <InputGroup className="mb-0" style={filterStyle}>
+                        <InputGroup.Text className="fw-bold" style={{ backgroundColor: 'transparent', border: 'none' }}>Date</InputGroup.Text>
+                        <Form.Control
+                            type="date"
+                            value={date}
+                            onChange={e => setDate(e.target.value)}
+                            className="fs-6"
+                        />
+                    </InputGroup>
+                </Col>
+                <Form.Group className="mb-4 d-flex align-items-center">
+                <Form.Label className="fw-bold me-3 mb-0" style={{ color: '#555' }}>Sort Price:</Form.Label>
+                    <Form.Select
+                        style={{ width: '150px', fontSize: '1rem', color: '#555' }}
+                        value={sortOrder}
+                        onChange={e => setSortOrder(e.target.value)}
+                        className="form-select-sm"
+                    >
+                        <option value="reset">Reset</option>
+                        <option value="lowToHigh">Low to High</option>
+                        <option value="highToLow">High to Low</option>
+                    </Form.Select>
+                </Form.Group>
 
                 {/* Results List */}
                 {<VehicleList selectedType={selectedType} filtered={filtered} />}
@@ -149,3 +183,19 @@ const VehicleList = ({ selectedType, filtered }) => (
         )}
     </ListGroup>
 );
+
+// {
+//     "vehicleId": "vehicle-f1935784-2df1-4b9c-8f25-72ec4d676017",
+//     "sellerId": "seller0@gmail.com",
+//     "source": "kashmir",
+//     "destination": "nagpur",
+//     "departureDate": "2025-09-27",
+//     "departureTime": "13:50:00",
+//     "mode": "bus",
+//     "seatCapacity": 1000,
+//     "availableSeats": 1000,
+//     "basePrice": 300.0,
+//     "dayOfMonth": 27,
+//     "dayOfWeek": "SATURDAY",
+//     "dayOfYear": 270
+// }
